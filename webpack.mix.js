@@ -11,5 +11,16 @@ const { mix } = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
+var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+
+
+mix.react('resources/assets/js/app.jsx', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');
+
+
+
+mix.webpackConfig({
+  plugins: [
+    new BrowserSyncPlugin()
+  ]
+});
