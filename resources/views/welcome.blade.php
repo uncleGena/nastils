@@ -6,25 +6,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="/css/app.css" rel="stylesheet" type="text/css">
 
         <title>Nails</title>
+    </head>
+    <body>
 
         {{-- React app --}}
         <div id="app"></div>
+        <script src="/js/manifest.js"></script>
+        <script src="/js/vendor.js"></script>
         <script src="/js/app.js"></script>
 
-
-
-
-
-
-
-
-
-
-        <script id="__bs_script__">//<![CDATA[
-            document.write("<script async src='http://HOST:3002/browser-sync/browser-sync-client.js?v=2.18.8'><\/script>".replace("HOST", location.hostname));
-            //]]></script>
     </body>
 </html>

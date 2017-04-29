@@ -7,6 +7,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Nails  from './components/Nails.jsx'
+import styles from '../sass/app.scss'
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -16,6 +18,6 @@ import ReactDOM from 'react-dom';
  // import Main from './Main.jsx'
 
  ReactDOM.render(
-   <h1>Hello, Laravel!!ss  Fff  sssdsd    4444 </h1>,
+   <Nails />,
    document.getElementById('app')
  );
