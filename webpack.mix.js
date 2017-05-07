@@ -16,33 +16,27 @@ var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 
 mix.react('resources/assets/js/app.jsx', 'public/js').extract(
-  ['jquery', './node_modules/materialize-css/dist/js/materialize.js']
-).sass('resources/assets/sass/app.scss', 'public/css');
+  ['jquery']
+).sass('resources/assets/sass/app.scss', 'public/css').copy(
+  'resources/assets/img', 'public/img'
+);
 
 
 
 mix.webpackConfig({
-  // entry: {
-  //   vendor: ['jquery', './node_modules/materialize-css/dist/js/materialize.js'],
-  //   app: './resources/assets/js/app.jsx'
-  // },
-  // output: {
-  //   path: path.resolve(__dirname, 'public/js'),
-  //   filename: '[name].js'
-  // },
   plugins: [
     new BrowserSyncPlugin({
       host: 'nails.loc',
       proxy: 'http://nails.loc/'
-      // server: { baseDir: ['public'] }
     })
+  ],
+  watchOptions: {
+    poll: 1500,
+    ignored: /node_modules|app|bootstrap|config|database|public|routes|storage|tests|vendor/
+  }
+  // ,externals: {
+  //   jquery: 'jQuery',
+  //   $: 'jQuery'
+  // }
 
-    // The CommonsChunkPlugin is an opt-in feature that creates a separate file
-    // (known as a chunk), consisting of common modules shared between multiple
-    // entry points.
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'vendor',
-    //   minChunks: Infinity
-    // }),
-  ]
 });
