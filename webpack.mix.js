@@ -19,6 +19,8 @@ mix.react('resources/assets/js/app.jsx', 'public/js').extract(
   ['jquery']
 ).sass('resources/assets/sass/app.scss', 'public/css').copy(
   'resources/assets/img', 'public/img'
+).copy(
+  'node_modules/flexboxgrid/dist', 'public/css'
 );
 
 
@@ -34,6 +36,14 @@ mix.webpackConfig({
     poll: 1500,
     ignored: /node_modules|app|bootstrap|config|database|public|routes|storage|tests|vendor/
   }
+  // ,
+  // rules: [
+  //   {
+  //     test: /\.css$/,
+  //     use: [ 'style-loader', 'css-loader' ],
+  //     include: /flexboxgrid/
+  //   }
+  // ]
   // ,externals: {
   //   jquery: 'jQuery',
   //   $: 'jQuery'

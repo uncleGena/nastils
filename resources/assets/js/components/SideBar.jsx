@@ -8,6 +8,9 @@ import GroupIcon from 'material-ui/svg-icons/social/group';
 import MoneyIcon from 'material-ui/svg-icons/editor/attach-money';
 import BrushIcon from 'material-ui/svg-icons/image/brush';
 
+import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom'
+
+
 
 export default class SideBar extends React.Component {
   constructor(props) {
@@ -19,15 +22,15 @@ export default class SideBar extends React.Component {
   }
 
   componentDidMount() {
-    console.log('MOUNTED. this.state.show', this.props.show);
+    // console.log('MOUNTED. this.state.show', this.props.show);
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('updaTED. nextProps:', nextProps);
+    // console.log('updaTED. nextProps:', nextProps);
   }
 
   some() {
-    console.log('some')
+    // console.log('some')
   }
 
   handleClose(e) {
@@ -53,13 +56,6 @@ export default class SideBar extends React.Component {
             >
             <img src="img/nails_pic.jpg" />
           </CardMedia>
-          {/*<CardTitle title="Card title" subtitle="Card subtitle" />*/}
-          {/*<CardText>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-            Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-            Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-          </CardText>*/}
           <CardActions>
             {/*<FlatButton label="Action1" />*/}
             {/*<FlatButton label="Action2" />*/}
@@ -67,18 +63,31 @@ export default class SideBar extends React.Component {
 
           <Divider />
 
-          <MenuItem onTouchTap={this.handleClose.bind(this)}
-            leftIcon={<GroupIcon />}
-            >Klients</MenuItem>
+          <NavLink to="/clients" style={{textDecoration:'none'}}>
+            <MenuItem onTouchTap={this.handleClose.bind(this)}
+              leftIcon={<GroupIcon />}
+              >Clients
+            </MenuItem>
+          </NavLink>
 
-          <MenuItem onTouchTap={this.handleClose.bind(this)}
-            leftIcon={<MoneyIcon />}
-            >Spends</MenuItem>
+          <NavLink to="/spends" style={{textDecoration:'none'}}>
+            <MenuItem onTouchTap={this.handleClose.bind(this)}
+              leftIcon={<MoneyIcon />}
+              >Spends</MenuItem>
+          </NavLink>
 
-          <MenuItem onTouchTap={this.handleClose.bind(this)}
-            leftIcon={<BrushIcon />}
-            >Orders</MenuItem>
+          <NavLink to="/orders" style={{textDecoration:'none'}}>
+            <MenuItem onTouchTap={this.handleClose.bind(this)}
+              leftIcon={<BrushIcon />}
+              >Orders</MenuItem>
+          </NavLink>
 
+          <Divider />
+          <MenuItem onTouchTap={this.handleClose.bind(this)}
+            >
+            <NavLink to="/">HOME</NavLink>
+
+            </MenuItem>
           <Divider />
 
           <MenuItem onTouchTap={this.handleClose.bind(this)}

@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+// Route::get('{path?}', 'Controller@action')->where('path', '.*');
+Route::get('{path?}', function() {
+    return view('welcome');
+});

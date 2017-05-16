@@ -3,10 +3,14 @@ import ReactDOM from 'react-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-import {BrowserRouter, Route, Link} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
 
 import Header from './components/Header'
 import Home from './components/Home'
+import Clients from './components/Clients'
+import Spends from './components/Spends'
+import Orders from './components/Orders'
+
 
 // for theme changing
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -27,9 +31,21 @@ injectTapEventPlugin();
 ReactDOM.render(
   <MuiThemeProvider muiTheme={muiTheme}>
     <div>
-      <Header />
-      <Home />
+
+
+      <Router>
+        <div>
+          <Header />
+          <div>  
+            <Route exact path="/"  component={Home}/>
+            <Route path="/clients" component={Clients}/>
+            <Route path="/spends"  component={Spends}/>
+            <Route path="/orders"  component={Orders}/>
+          </div>
+        </div>
+      </Router>
     </div>
+
   </MuiThemeProvider>,
   document.getElementById('app')
 );
