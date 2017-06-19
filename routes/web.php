@@ -11,12 +11,26 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('{reactRoutes}', function () {
     return view('welcome');
+})->where('reactRoutes', '^((?!api).)*$');
+
+// Route::get('/clients', function() {
+//     return view('welcome');
+// });
+
+Route::get('api/clients', 'ClientController');
+
+Route::get('api/something/2', function() {
+    return [
+        'hello' => 'good bye',
+        'dog' => 'cat'
+    ];
 });
 
 
 // Route::get('{path?}', 'Controller@action')->where('path', '.*');
-Route::get('{path?}', function() {
-    return view('welcome');
-});
+// Route::get('/{path?}', function() {
+    // return 'custom route';
+    // return view('welcome');
+// });
