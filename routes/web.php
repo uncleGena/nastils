@@ -19,7 +19,7 @@ Route::get('{reactRoutes}', function () {
 //     return view('welcome');
 // });
 
-Route::get('api/clients', 'ClientController');
+Route::resource('api/clients', 'ClientController');
 
 Route::get('api/something/2', function() {
     return [
