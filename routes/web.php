@@ -15,11 +15,7 @@ Route::get('{reactRoutes}', function () {
     return view('welcome');
 })->where('reactRoutes', '^((?!api).)*$');
 
-// Route::get('/clients', function() {
-//     return view('welcome');
-// });
-
-Route::resource('api/clients', 'ClientController');
+// Route::resource('api/clients', 'ClientController');
 
 Route::get('api/something/2', function() {
     return [
@@ -27,10 +23,3 @@ Route::get('api/something/2', function() {
         'dog' => 'cat'
     ];
 });
-
-
-// Route::get('{path?}', 'Controller@action')->where('path', '.*');
-// Route::get('/{path?}', function() {
-    // return 'custom route';
-    // return view('welcome');
-// });
