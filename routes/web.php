@@ -15,7 +15,9 @@ Route::get('{reactRoutes}', function () {
     return view('welcome');
 })->where('reactRoutes', '^((?!api).)*$');
 
-// Route::resource('api/clients', 'ClientController');
+Route::resource('api/spend-types', 'SpendTypeController');
+
+Route::resource('api/clients', 'ClientController');
 
 Route::get('api/something/2', function() {
     return [
