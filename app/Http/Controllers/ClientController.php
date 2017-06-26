@@ -17,6 +17,11 @@ class ClientController extends Controller
         return Client::all();
     }
 
+    public function latest()
+    {
+        return Client::orderBy('id', 'desc')->first();
+    }
+
     /**
      * Store a newly created resource in storage.
      *

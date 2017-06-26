@@ -17,6 +17,7 @@ Route::get('{reactRoutes}', function () {
 
 Route::resource('api/spend-types', 'SpendTypeController');
 
+Route::get('api/clients/latest', 'ClientController@latest');
 Route::resource('api/clients', 'ClientController');
 
 Route::get('api/something/2', function() {

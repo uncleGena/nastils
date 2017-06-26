@@ -23,11 +23,14 @@ export default class Home extends React.Component {
 
   createNewSpendType = () => {
     $.ajax({
-      url: '/api/spend-types/',
+      url: '/api/clients/',
+      // url: '/api/spend-types/',
       method: 'POST',
       data: {
-        group: `${Math.floor(Math.random() * 1000)} test group`,
-        type: `${Math.floor(Math.random() * 1000)} test type`
+        // group: `${Math.floor(Math.random() * 1000)} test group`,
+        // type: `${Math.floor(Math.random() * 1000)} test type`
+        name: `${Math.floor(Math.random() * 1000)} test name`,
+        note: `${Math.floor(Math.random() * 1000)} test note`
       },
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

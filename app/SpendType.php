@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SpendType extends Model
 {
-    use SoftDeletes;
+    // use SoftDeletes;
     protected $table = 'spends_types';
 }
