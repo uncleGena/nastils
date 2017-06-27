@@ -41,7 +41,8 @@ export default class Clients extends React.Component {
       clientName: '',
       clientNote: '',
       clientSource: '',
-      snackbar: false,
+      snackbarAdd: false,
+      snackbarUpdate: false,
       tableData: [
         {
           id: 'loading...',
@@ -51,7 +52,8 @@ export default class Clients extends React.Component {
         }
       ],
       selectedRows: [],
-      latestClient: {name: 'loading', note: 'loading', source: 'loading'}
+      latestClient: {name: 'loading', note: 'loading', source: 'loading'},
+      updatedClient: {}
     }
   }
 
@@ -104,7 +106,7 @@ export default class Clients extends React.Component {
     this.setState({clientSource: newVal})
   }
 
-  sendNewUser(e) {
+  createNewClient(e) {
     console.log(this.state);
     $.ajax({
       url: '/api/clients/',
@@ -119,7 +121,7 @@ export default class Clients extends React.Component {
       }
     }).then(resp => {
       console.log('send new client.', resp);
-      this.setState({snackbar:true})
+      this.setState({snackbarAdd:true})
       // then reset
       this.setState({clientName:'', clientNote:'', clientSource:''})
       this.showLatestClient();
@@ -129,8 +131,25 @@ export default class Clients extends React.Component {
     });
   }
 
+  saveUpdatedClient = (e) => {
+    let data = this.state.updatedClient;
+    $.ajax({
+      url: `/api/clients/${data.id}`,
+      method: 'PUT',
+      data: data,
+      headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    }).then(resp => {
+      console.log('client updated', resp);
+      this.getAllClients();
+      this.setState({snackbarUpdate:true})
+    }, err => {
+      console.log(err.responseText);
+    })
+  }
+
   closeSnackbar(e) {
-    this.setState({snackbar:false});
+    this.setState({snackbarAdd:false});
+    this.setState({snackbarUpdate:false});
   }
 
   onRowSelection = (rowInds) => {
@@ -171,6 +190,18 @@ export default class Clients extends React.Component {
     })
   }
 
+  clientOnChange(fieldName, event) {
+    let id     = this.state.selectedRows[0].id;
+    let name   = fieldName === 'name'   ? event.target.value : this.state.selectedRows[0].name;
+    let note   = fieldName === 'note'   ? event.target.value : this.state.selectedRows[0].note;
+    let source = fieldName === 'source' ? event.target.value : this.state.selectedRows[0].source;
+    this.setState({
+      updatedClient: {id, name, note, source}
+    }, () => {
+      console.log(this.state.updatedClient);
+    })
+  }
+
   render() {
     let newClientForm;
     if (this.state.selectedIndex === 0) {
@@ -180,31 +211,35 @@ export default class Clients extends React.Component {
             <Col xs={12} md={12}>
               <TextField
                 style={{width: '100%'}}
-                hintText="Client Name"
+                floatingLabelText="Client Name"
                 onChange={this.setName.bind(this)}
                 value={this.state.clientName}
-                />
+              />
             </Col>
             <Col xs={12} md={12}>
               <TextField
+                multiLine={true}
+                rows={1}
                 style={{width: '100%'}}
-                hintText="Note"
+                floatingLabelText="Note"
+                hintText="Введіть особливості клієнта"
                 onChange={this.setNote.bind(this)}
                 value={this.state.clientNote}
-                />
+              />
             </Col>
             <Col xs={12} md={12}>
               <TextField
                 style={{width: '100%'}}
-                hintText="Source"
+                floatingLabelText="Source"
+                hintText="Звідки клієнт дізнався"
                 onChange={this.setSource.bind(this)}
                 value={this.state.clientSource}
-                />
+              />
             </Col>
             <Col xs={12} md={12}>
               <br />
               <RaisedButton label="Add" fullWidth={true}
-                onTouchTap={this.sendNewUser.bind(this)}/>
+                onTouchTap={this.createNewClient.bind(this)}/>
             </Col>
             <Divider />
             <Col xs={12} md={12} style={{marginTop: '35px'}}>
@@ -223,6 +258,7 @@ export default class Clients extends React.Component {
       </Row>
     }
     let clientsTable;
+    let updateClient;
     if (this.state.selectedIndex === 1) {
       clientsTable = <Table
         onRowSelection={this.onRowSelection}
@@ -240,7 +276,7 @@ export default class Clients extends React.Component {
         </TableHeader>
         <TableBody
           stripedRows={true}
-          deselectOnClickaway={true}>
+          deselectOnClickaway={false}>
           {this.state.tableData.map(row => (
             <TableRow key={row.id}>
               <TableRowColumn>{row.id}</TableRowColumn>
@@ -252,6 +288,40 @@ export default class Clients extends React.Component {
         </TableBody>
       </Table>
 
+      if (this.state.selectedRows.length == 1) {
+        updateClient = <div>
+          <TextField
+            style={{width: '100%'}}
+            hintText="Client Name"
+            floatingLabelText="Client Name"
+            defaultValue={this.state.selectedRows[0].name}
+            onChange={this.clientOnChange.bind(this, 'name')}
+          /><br />
+          <TextField
+            style={{width: '100%'}}
+            hintText="Особливості клієнта"
+            multiLine={true}
+            rows={2}
+            rowsMax={4}
+            defaultValue={this.state.selectedRows[0].note}
+            onChange={this.clientOnChange.bind(this, 'note')}
+          /><br />
+          <TextField
+            style={{width: '100%'}}
+            hintText="Message Field"
+            floatingLabelText="MultiLine and FloatingLabel"
+            multiLine={false}
+            rows={1}
+            defaultValue={this.state.selectedRows[0].source}
+            onChange={this.clientOnChange.bind(this, 'source')}
+          /><br />
+          <br />
+          <RaisedButton
+            label="Full width" fullWidth={true}
+            onTouchTap={this.saveUpdatedClient}
+          />
+        </div>
+      }
     }
 
     let floattingButton = {
@@ -267,6 +337,7 @@ export default class Clients extends React.Component {
 
         {newClientForm}
         {clientsTable}
+        {updateClient}
 
         <FloatingActionButton style={floattingButton} onTouchTap={this.deleteSelectedRows}>
           <ContentAdd />
@@ -289,11 +360,18 @@ export default class Clients extends React.Component {
         </Paper>
 
         <Snackbar
-          open={this.state.snackbar}
+          open={this.state.snackbarAdd}
           message="Успішно додано нового клієнта"
           autoHideDuration={5000}
           onRequestClose={this.closeSnackbar.bind(this)}
-          />
+        />
+
+        <Snackbar
+          open={this.state.snackbarUpdate}
+          message="Успішно оновлено клієнта"
+          autoHideDuration={5000}
+          onRequestClose={this.closeSnackbar.bind(this)}
+        />
       </div>
     )
   }
