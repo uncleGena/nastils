@@ -7,8 +7,8 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
 
 import Header from './components/Header'
 import Home from './components/Home'
-import Clients from './components/Clients'
-import Spends from './components/Spends'
+import Clients from './components/clients/Clients'
+import Spends from './components/spends/Spends'
 import Orders from './components/Orders'
 
 
@@ -36,7 +36,7 @@ ReactDOM.render(
       <Router>
         <div>
           <Header />
-          <div>  
+          <div>
             <Route exact path="/"  component={Home}/>
             <Route path="/clients" component={Clients}/>
             <Route path="/spends"  component={Spends}/>
